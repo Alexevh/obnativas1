@@ -22,23 +22,37 @@ public class MainActivity extends AppCompatActivity {
     {
         List<String> parametros= new ArrayList<String>();
         String url = "http://obligatorio.local.ort.edu.uy/usuario";
-        EditText nombre =  (EditText)v.findViewById(R.id.nombre);
-        EditText apellido =  (EditText)v.findViewById(R.id.apellido);
-        EditText telefono =  (EditText)v.findViewById(R.id.telefono);
-        EditText password =  (EditText)v.findViewById(R.id.password);
-        EditText mail =  (EditText)v.findViewById(R.id.mail);
+        EditText nombre =  findViewById(R.id.nombre);
+        EditText apellido = findViewById(R.id.apellido);
+        EditText telefono =  findViewById(R.id.telefono);
+        EditText password =  findViewById(R.id.password);
+        EditText mail =  findViewById(R.id.mail);
 
 
         parametros.add(url);
+
         parametros.add(nombre.getText().toString());
+
+
         parametros.add(apellido.getText().toString());
         parametros.add(telefono.getText().toString());
         parametros.add(password.getText().toString());
         parametros.add(mail.getText().toString());
 
+       // parametros.add("nombre");
+        //parametros.add("apellido");
+        //parametros.add("23345566");
+        //parametros.add("paswear");
+        //parametros.add("nombre@mail.com");
 
 
-        new registro(this).execute("http://obligatorio.local.ort.edu.uy/usuario");
+
+        /* ojo on el orden*/
+        String[] paramVector = new String[parametros.size()];
+        paramVector = parametros.toArray(paramVector);
+
+
+        new registro(this).execute(paramVector);
     }
 
 

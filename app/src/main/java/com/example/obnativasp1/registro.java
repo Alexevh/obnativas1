@@ -35,16 +35,47 @@ public class registro  extends AsyncTask<String, Void, String>{
 
             JSONObject usuario = new JSONObject();
             usuario.put("nombre", nombre);
+            usuario.put("apellido", apellido);
+            usuario.put("telefono", telefono);
+            usuario.put("password", password);
+            usuario.put("mail", mail);
+
+
 
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            /* genero los parametros en el properties*/
+            //con.setRequestProperty ("Authorization", basicAuth);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            //con.setRequestProperty("Content-Length", "" + postData.getBytes().length);
+
+
+            con.setRequestProperty("nombreUsuario", nombre);
+            con.setRequestProperty("apellidoUsuario", apellido);
+            con.setRequestProperty("emailUsuario", mail);
+            con.setRequestProperty("telefonoUsuario", telefono);
+
+            /*UUID que deberiamos sacar del aparato*/
+            con.setRequestProperty("uuid", "123456789");
+
+            /**/
+
+
+            con.setUseCaches(false);
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+
+
             con.connect();
             BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
             String valor = reader.readLine();
             reader.close();
             con.disconnect();
             JSONObject respuesta = new JSONObject(valor);
-            return respuesta.getJSONObject("value").getString("joke");
+            return respuesta.getJSONObject("value").getString("descripcion");
 
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
@@ -60,8 +91,8 @@ public class registro  extends AsyncTask<String, Void, String>{
     {
         if (m_activity!=null)
         {
-            //TextView texto =(TextView)m_activity.findViewById(R.id.texto);
-            //texto.setText(result);
+            TextView texto =(TextView)m_activity.findViewById(R.id.texto);
+            texto.setText(result);
         }
     }
 
