@@ -62,20 +62,25 @@ public class registro  extends AsyncTask<String, Void, String>{
             // read the response
             InputStream in = new BufferedInputStream(conn.getInputStream());
             String result = IOUtils.toString(in, "UTF-8");
-            System.out.println(result);
+
+            //hardcodeo el resultado a ver si le falta la coma
+            //String resultadohard = "{'status':1000, 'descripcion':'sarasa'}";
+            System.out.println(" Me llega en result"+ result);
             System.out.println("result after Reading JSON Response");
 
 
-            JSONObject myResponse = new JSONObject(result);
+            //JSONObject myResponse = new JSONObject(result);
            /* fUNCIONA EL INGRESO, PERO A PARTIR DE ACA SE ROMPE COMO QUE NO PUEDE
            * CONSTRUIR EL JSON A PARTIR DEL RESULT*/
 
             in.close();
             conn.disconnect();
 
+            JSONObject retorno =  new JSONObject(result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1));
+            //String d = retorno.getJSONObject("descripcion").getString("descripcion").toString();
+            //System.out.println(" Me devolveria " +retorno.getString("descripcion"));
 
-            return myResponse.getJSONObject("value").getString("descripcion");
-
+            return retorno.getString("descripcion");
 
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
