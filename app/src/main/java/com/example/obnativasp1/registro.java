@@ -38,6 +38,7 @@ public class registro  extends AsyncTask<String, Void, String>{
 
             String query_url = urls[0];
 
+            /* Armo el objeto json*/
             JSONObject usuario = new JSONObject();
             usuario.put("nombreUsuario", nombre);
             usuario.put("apellidoUsuario", apellido);
@@ -46,9 +47,10 @@ public class registro  extends AsyncTask<String, Void, String>{
             usuario.put("emailUsuario", mail);
             usuario.put("statusUsuario", "ACTIVO");
 
-
+            /* lo convierto a string para pasarlo a POST*/
             String json =  usuario.toString();
 
+            /* Abro la conexion y seteo los parametros*/
             URL url = new URL(query_url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
@@ -56,30 +58,28 @@ public class registro  extends AsyncTask<String, Void, String>{
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod("POST");
+
+            /* Como el JSON va en el cuerpo lo metemos en el outpustream*/
             OutputStream os = conn.getOutputStream();
             os.write(json.getBytes("UTF-8"));
             os.close();
-            // read the response
+
+
+            // leemos ahora la respuesta, usamos la clase IOUTils de apache
             InputStream in = new BufferedInputStream(conn.getInputStream());
             String result = IOUtils.toString(in, "UTF-8");
+           // System.out.println(" Me llega en result"+ result);
 
-            //hardcodeo el resultado a ver si le falta la coma
-            //String resultadohard = "{'status':1000, 'descripcion':'sarasa'}";
-            System.out.println(" Me llega en result"+ result);
-            System.out.println("result after Reading JSON Response");
-
-
-            //JSONObject myResponse = new JSONObject(result);
-           /* fUNCIONA EL INGRESO, PERO A PARTIR DE ACA SE ROMPE COMO QUE NO PUEDE
-           * CONSTRUIR EL JSON A PARTIR DEL RESULT*/
 
             in.close();
             conn.disconnect();
 
+            /* El resultado anterior por algun motivo me regresa tanto el json que yo le mande como la
+            * respuesta del servidor,a  mi solo me interesa la ultima parte asi que me hago un JSON
+            * nuevo con ese substring, es una chanchada pero funciona*/
             JSONObject retorno =  new JSONObject(result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1));
-            //String d = retorno.getJSONObject("descripcion").getString("descripcion").toString();
-            //System.out.println(" Me devolveria " +retorno.getString("descripcion"));
 
+            /* Obtengo el valor para la clave descricopn qye es lo que retorno*/
             return retorno.getString("descripcion");
 
         } catch (Exception e) {
