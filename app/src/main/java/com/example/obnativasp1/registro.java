@@ -6,8 +6,11 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -23,7 +26,7 @@ public class registro  extends AsyncTask<String, Void, String>{
     @Override
     protected String doInBackground(String... urls) {
         try {
-            URL url = new URL(urls[0]);
+
 
             /* Obtengo parametros*/
             String nombre = urls[1];
@@ -32,50 +35,42 @@ public class registro  extends AsyncTask<String, Void, String>{
             String password = urls[4];
             String mail = urls[5];
 
+            String query_url = urls[0];
 
             JSONObject usuario = new JSONObject();
-            usuario.put("nombre", nombre);
-            usuario.put("apellido", apellido);
-            usuario.put("telefono", telefono);
-            usuario.put("password", password);
-            usuario.put("mail", mail);
+            usuario.put("nombreUsuario", nombre);
+            usuario.put("apellidoUsuario", apellido);
+            usuario.put("telefonoUsuario", telefono);
+            usuario.put("passwordUsuario", password);
+            usuario.put("emailUsuario", mail);
+            usuario.put("statusUsuario", "ACTIVO");
 
 
+            String json =  usuario.toString();
 
+            URL url = new URL(query_url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestMethod("POST");
+            OutputStream os = conn.getOutputStream();
+            os.write(json.getBytes("UTF-8"));
+            os.close();
+            // read the response
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            String result = "sarasa";
+            System.out.println(result);
+            System.out.println("result after Reading JSON Response");
+            JSONObject myResponse = new JSONObject(result);
+            System.out.println("jsonrpc- "+myResponse.getString("jsonrpc"));
+            System.out.println("id- "+myResponse.getInt("id"));
+            System.out.println("result- "+myResponse.getString("result"));
+            in.close();
+            conn.disconnect();
+            return null;
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-            /* genero los parametros en el properties*/
-            //con.setRequestProperty ("Authorization", basicAuth);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-            //con.setRequestProperty("Content-Length", "" + postData.getBytes().length);
-
-
-            con.setRequestProperty("nombreUsuario", nombre);
-            con.setRequestProperty("apellidoUsuario", apellido);
-            con.setRequestProperty("emailUsuario", mail);
-            con.setRequestProperty("telefonoUsuario", telefono);
-
-            /*UUID que deberiamos sacar del aparato*/
-            con.setRequestProperty("uuid", "123456789");
-
-            /**/
-
-
-            con.setUseCaches(false);
-            con.setDoInput(true);
-            con.setDoOutput(true);
-
-
-
-            con.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-            String valor = reader.readLine();
-            reader.close();
-            con.disconnect();
-            JSONObject respuesta = new JSONObject(valor);
-            return respuesta.getJSONObject("value").getString("descripcion");
 
         } catch (Exception e) {
             Log.e("Error", e.getMessage());

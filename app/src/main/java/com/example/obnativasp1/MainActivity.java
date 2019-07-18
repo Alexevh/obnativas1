@@ -3,6 +3,7 @@ package com.example.obnativasp1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
 
@@ -15,13 +16,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
 
     public void registrar(View v)
     {
         List<String> parametros= new ArrayList<String>();
-        String url = "http://obligatorio.local.ort.edu.uy/usuario";
+        String url = "http://apiort.montevideo-gh.com/public/usuario";
         EditText nombre =  findViewById(R.id.nombre);
         EditText apellido = findViewById(R.id.apellido);
         EditText telefono =  findViewById(R.id.telefono);
@@ -39,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
         parametros.add(password.getText().toString());
         parametros.add(mail.getText().toString());
 
-       // parametros.add("nombre");
-        //parametros.add("apellido");
-        //parametros.add("23345566");
-        //parametros.add("paswear");
-        //parametros.add("nombre@mail.com");
+        //parametros.add("nombre222");
+        //parametros.add("apellid2222o");
+        //parametros.add("2334556644444");
+        //parametros.add("paswear3333");
+        //parametros.add("nombre@mail222.com");
 
 
 
