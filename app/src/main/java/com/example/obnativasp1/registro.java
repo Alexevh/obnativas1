@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -60,16 +61,20 @@ public class registro  extends AsyncTask<String, Void, String>{
             os.close();
             // read the response
             InputStream in = new BufferedInputStream(conn.getInputStream());
-            String result = "sarasa";
+            String result = IOUtils.toString(in, "UTF-8");
             System.out.println(result);
             System.out.println("result after Reading JSON Response");
+
+
             JSONObject myResponse = new JSONObject(result);
-            System.out.println("jsonrpc- "+myResponse.getString("jsonrpc"));
-            System.out.println("id- "+myResponse.getInt("id"));
-            System.out.println("result- "+myResponse.getString("result"));
+           /* fUNCIONA EL INGRESO, PERO A PARTIR DE ACA SE ROMPE COMO QUE NO PUEDE
+           * CONSTRUIR EL JSON A PARTIR DEL RESULT*/
+
             in.close();
             conn.disconnect();
-            return null;
+
+
+            return myResponse.getJSONObject("value").getString("descripcion");
 
 
         } catch (Exception e) {
