@@ -14,7 +14,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.security.cert.CertificateException;
+import javax.security.cert.X509Certificate;
 
 public class restCategorias extends AsyncTask<String, Void, String> {
 
@@ -25,6 +34,25 @@ public class restCategorias extends AsyncTask<String, Void, String> {
     }
 
 
+    // Create a trust manager that does not validate certificate chains
+    TrustManager[] trustAllCerts = new TrustManager[]{
+            new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new java.security.cert.X509Certificate[0];
+                }
+
+                public void checkClientTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+
+                public void checkServerTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+            }
+    };
+
+
+
 
 
 
@@ -32,6 +60,12 @@ public class restCategorias extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
         try {
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+
             URL url = new URL(urls[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.connect();
@@ -48,7 +82,6 @@ public class restCategorias extends AsyncTask<String, Void, String> {
 
             return null;
         }
-
 
 
     }

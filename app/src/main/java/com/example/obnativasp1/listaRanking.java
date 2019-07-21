@@ -14,8 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class listaCategorias extends Activity implements asyncResponse {
-
+public class listaRanking extends Activity {
 
     ListView listView;
 
@@ -26,11 +25,11 @@ public class listaCategorias extends Activity implements asyncResponse {
         setContentView(R.layout.ativity_list_view_categorias);
 
         //Obtrengo el listview from xml
-        listView = (ListView) findViewById(R.id.listaCategorias);
+        listView = (ListView) findViewById(R.id.listaRanking);
 
         List<String> parametros = new ArrayList<String>();
-        //String url = "http://apiort.montevideo-gh.com/public/categoria/";
-        String url = "https://apiort.portalbase.uy/categoria";
+        //String url = "http://apiort.montevideo-gh.com/public/ranking";
+        String url = "https://apiort.portalbase.uy/ranking";
         parametros.add(url);
 
         /* ojo on el orden*/
@@ -39,7 +38,7 @@ public class listaCategorias extends Activity implements asyncResponse {
         String resultado = "";
 
         try {
-            resultado = new restCategorias(this).execute(paramVector).get();
+            resultado = new restRanking(this).execute(paramVector).get();
 
             JSONObject retorno = new JSONObject(resultado.substring(resultado.indexOf("{"), resultado.lastIndexOf("}") + 1));
 
@@ -109,14 +108,6 @@ public class listaCategorias extends Activity implements asyncResponse {
         }
 
 
-    }
-
-    @Override
-    public void processFinish(String output) {
-
-        //Here you will receive the result fired from async class
-        //of onPostExecute(result) method.
-        System.out.println(output);
     }
 
 
