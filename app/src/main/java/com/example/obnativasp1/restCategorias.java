@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -61,21 +62,37 @@ public class restCategorias extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         try {
 
+
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
 
+            /*  ESto se lo tengo que preguntar al docente, en el ejemplo de la app de chucknorris
+            * las conexion es simple y elegante, pero no me funciona con mi API, sin embargo con la
+            * de portalbase si anda, yo para que me funcione tengo que usar un inputstream y pasarlo
+            * a string*/
+
+
+
             URL url = new URL(urls[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-            String valor = reader.readLine();
-            reader.close();
+            // leemos ahora la respuesta, usamos la clase IOUTils de apache
+            InputStream in = new BufferedInputStream(con.getInputStream());
+            String result = IOUtils.toString(in, "UTF-8");
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+            //String valor = reader.readLine();
+            //reader.close();
             con.disconnect();
             //JSONObject respuesta = new JSONObject(valor);
             //return respuesta.getJSONObject("value").getString("joke");\
-            return valor;
+            return result;
+
+
+
+
+
 
         } catch (Exception e) {
             Log.e("Error", e.getMessage());

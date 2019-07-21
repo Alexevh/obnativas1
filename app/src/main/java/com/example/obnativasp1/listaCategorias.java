@@ -29,8 +29,8 @@ public class listaCategorias extends Activity implements asyncResponse {
         listView = (ListView) findViewById(R.id.listaCategorias);
 
         List<String> parametros = new ArrayList<String>();
-        //String url = "http://apiort.montevideo-gh.com/public/categoria/";
-        String url = "https://apiort.portalbase.uy/categoria";
+        String url = "http://apiort.montevideo-gh.com/public/categoria/";
+       // String url = "https://apiort.portalbase.uy/categoria";
         parametros.add(url);
 
         /* ojo on el orden*/
@@ -47,7 +47,7 @@ public class listaCategorias extends Activity implements asyncResponse {
             /* Aca tengo todo el array de la dec , el JSON viene muy entreverado, y dentro de el hay una seccion o un JSON propio
              * que es el descripcion, ahi dentro estan las pelis con los id y el titulo, dentro de sescripcion hay muchos subjsons uno
              * por cada pelicula, por eso hacemos un jsonarray y lo buscamod por etiqueta, en este caso description*/
-            JSONArray params = retorno.getJSONArray("description");
+            JSONArray params = retorno.getJSONArray("descripcion");
 
 
             /* Como la lista recibe un vector de strings creamos una lista*/
@@ -57,9 +57,9 @@ public class listaCategorias extends Activity implements asyncResponse {
             /* Iteramos sobre el array de jsons y obtenemos los subjsons*/
             for (int i = 0; i < params.length(); i++) {
                 JSONObject pelicula = params.getJSONObject(i);
-                System.out.println( "el nombre de la peli es "+pelicula.getString("titulo"));
+                System.out.println( "el nombre de la peli es "+pelicula.getString("nombre"));
                 /* Obtenemos el string que corresponde a la etiqueta titulo y se lo asignamos a la lista*/
-                listaCategorias.add(pelicula.getString("titulo"));
+                listaCategorias.add(pelicula.getString("nombre"));
             }
 
 
