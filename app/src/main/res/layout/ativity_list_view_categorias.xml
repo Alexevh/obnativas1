@@ -6,16 +6,27 @@
     android:orientation="vertical"
     tools:context="com.example.obnativasp1.listaCategorias">
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textBoxBuscar"/>
+
     <ListView
         android:id="@+id/listaCategorias"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+
+       >
     </ListView>
 
     <ListView
         android:id="@+id/listaRanking"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+
+       >
+
     </ListView>
 
 </LinearLayout>

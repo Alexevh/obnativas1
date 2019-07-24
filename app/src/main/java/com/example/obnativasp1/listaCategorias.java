@@ -1,11 +1,18 @@
 package com.example.obnativasp1;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -14,19 +21,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class listaCategorias extends Activity implements asyncResponse {
+public class listaCategorias extends Activity implements asyncResponse, SearchView.OnQueryTextListener {
 
 
     ListView listView;
+    List<String> listaCategorias = new ArrayList<>();
 
+    EditText textBox;
+    TextView text;
+    String[] values = listaCategorias.toArray(new String[0]);
+    ArrayAdapter<String> adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ativity_list_view_categorias);
+        textBox=(EditText)findViewById(R.id.textBoxBuscar);
+        text=(TextView)findViewById(R.id.text);
 
         //Obtrengo el listview from xml
         listView = (ListView) findViewById(R.id.listaCategorias);
+
+        setActionBar();
 
         List<String> parametros = new ArrayList<String>();
         String url = "http://apiort.montevideo-gh.com/public/categoria/";
@@ -51,7 +70,7 @@ public class listaCategorias extends Activity implements asyncResponse {
 
 
             /* Como la lista recibe un vector de strings creamos una lista*/
-            List<String> listaCategorias = new ArrayList<>();
+           // List<String> listaCategorias = new ArrayList<>();
 
 
             /* Iteramos sobre el array de jsons y obtenemos los subjsons*/
@@ -73,7 +92,7 @@ public class listaCategorias extends Activity implements asyncResponse {
             // Tercer parametro - ID del TextView donde escribimos
             // cuarto - los datos
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+            adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
 
@@ -109,7 +128,27 @@ public class listaCategorias extends Activity implements asyncResponse {
         }
 
 
+
+        textBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
+
+
+
 
     @Override
     public void processFinish(String output) {
@@ -118,6 +157,43 @@ public class listaCategorias extends Activity implements asyncResponse {
         //of onPostExecute(result) method.
         System.out.println(output);
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String[] values = listaCategorias.toArray(new String[0]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+
+        // use to enable search view popup text
+        if (TextUtils.isEmpty(newText)) {
+            listView.clearTextFilter();
+        }
+       else {
+            listView.setFilterText(newText.toString());
+       }
+
+        return true;
+    }
+
+    private void setActionBar() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setTitle("Buscar");
+
+        Typeface typeface = Typeface.DEFAULT;
+        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        TextView actionBarTitle = (TextView) (this.findViewById(titleId));
+        actionBarTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
+        actionBarTitle.setTypeface(typeface);
+    }
+
 
 
 }
