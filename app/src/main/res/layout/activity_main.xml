@@ -30,7 +30,9 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="361dp"
-        android:text="tu nombre papa!" />
+        android:hint=" Escriba su nombre"
+
+        />
 
     <EditText
         android:id="@+id/apellido"
@@ -42,7 +44,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="273dp"
-        android:text="tu apellido papa!" />
+        android:hint="Escriba su apellido!" />
 
     <EditText
         android:id="@+id/password"
@@ -54,7 +56,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="196dp"
-        android:text="tu pass papa!" />
+        android:hint="Escriba su password" />
 
     <EditText
         android:id="@+id/mail"
@@ -66,7 +68,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="445dp"
-        android:text="tu mail papa!" />
+        android:hint="Escriba su email" />
 
     <EditText
         android:id="@+id/telefono"
@@ -78,7 +80,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="119dp"
-        android:text="tu telefono papa!" />
+        android:hint="Escriba su telefono" />
 
     <Button
         android:id="@+id/button1"

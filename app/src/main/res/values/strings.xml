@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">obnativasp1</string>
+    <string name="acercade"> Trabajo entregado para el obligatorio de Desarrollo de aplicaciones
+        nativas, Universidad ORT PDP - 2019 - Marcelo Alexandre - 153012
+    </string>
 </resources>
