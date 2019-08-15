@@ -1,6 +1,7 @@
 package com.example.obnativasp1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,10 +9,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,13 +27,19 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
 
     ListView listView;
-    List<String> listaPeliculas = new ArrayList<>();
+    List<String> listaPeliculas = new ArrayList<String>();
+
+    List<String> listaImagenes = new ArrayList<String>();
 
     EditText textBox;
     TextView text;
     String[] values = listaPeliculas.toArray(new String[0]);
     ArrayAdapter<String> adapter = null;
+    Context context;
 
+    /* El adaptador custom se hace para que la lista refresque las cosas cuando itera un item*/
+    CustomAdapter apaptador = new CustomAdapter(this, (ArrayList<String>) listaPeliculas, (ArrayList<String>) listaImagenes);
+    ImageView imagen =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,7 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
         //Obtrengo el listview from xml
         listView = (ListView) findViewById(R.id.listaPeliculas);
+         imagen = (ImageView) findViewById(R.id.imagen) ;
 
         //setActionBar();
 
@@ -95,6 +106,11 @@ public class listaPeliculas  extends Activity implements asyncResponse {
                 System.out.println("el nombre de la peli es " + pelicula.getString("titulo"));
                 /* Obtenemos el string que corresponde a la etiqueta titulo y se lo asignamos a la lista*/
                 listaPeliculas.add(pelicula.getString("titulo"));
+                listaImagenes.add(pelicula.getString("foto"));
+
+                /* cargo la imagen*/
+
+               //Picasso.with(this).load("http://apiort.montevideo-gh.com/img/tonto.jpeg").into(imagen);
             }
 
 
@@ -113,7 +129,8 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
 
             // Asignamos el adaptador a la listview
-            listView.setAdapter(adapter);
+           listView.setAdapter(apaptador);
+
 
             // Agreganos un listener al click de la lista
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,6 +153,8 @@ public class listaPeliculas  extends Activity implements asyncResponse {
                 }
 
             });
+
+
 
 
         } catch (Exception error) {
