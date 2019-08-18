@@ -2,6 +2,7 @@ package com.example.obnativasp1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +33,17 @@ public class listaPeliculas  extends Activity implements asyncResponse {
     List<String> listaPeliculas = new ArrayList<String>();
 
     List<String> listaImagenes = new ArrayList<String>();
+    List<String> listaDirecciones = new ArrayList<String>();
 
     EditText textBox;
     TextView text;
     String[] values = listaPeliculas.toArray(new String[0]);
     ArrayAdapter<String> adapter = null;
     Context context;
+    String direccion = "";
 
     /* El adaptador custom se hace para que la lista refresque las cosas cuando itera un item*/
-    CustomAdapter apaptador = new CustomAdapter(this, (ArrayList<String>) listaPeliculas, (ArrayList<String>) listaImagenes);
+    CustomAdapter apaptador = new CustomAdapter(this, (ArrayList<String>) listaPeliculas, (ArrayList<String>) listaImagenes, (ArrayList<String>) listaDirecciones);
     ImageView imagen =null;
 
     @Override
@@ -107,6 +112,9 @@ public class listaPeliculas  extends Activity implements asyncResponse {
                 /* Obtenemos el string que corresponde a la etiqueta titulo y se lo asignamos a la lista*/
                 listaPeliculas.add(pelicula.getString("titulo"));
                 listaImagenes.add(pelicula.getString("foto"));
+                listaDirecciones.add(pelicula.getString("mapa"));
+
+
 
                 /* cargo la imagen*/
 
@@ -147,7 +155,7 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
                     // Show Alert
                     Toast.makeText(getApplicationContext(),
-                            "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                            "Position :" + itemPosition + "  ListItem : " + direccion, Toast.LENGTH_LONG)
                             .show();
 
                 }
@@ -171,6 +179,24 @@ public class listaPeliculas  extends Activity implements asyncResponse {
         //Here you will receive the result fired from async class
         //of onPostExecute(result) method.
         System.out.println(output);
+    }
+
+    /* en el XML que recoge todas las vistas estaba categoriasy ahra esta peliculas*/
+    public  void buscarMapa(View view) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
+
+    getMapa(view, direccion);
+
+    }
+
+    public void getMapa(View view, String direccion)
+    {
+        TextView mapa = findViewById(R.id.direccionMapa);
+
+        String dir = (String) mapa.getText();
+        System.out.println("La direccion que me llega es "+dir);
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra("valorMapa", dir);
+        startActivity(i);
     }
 
 

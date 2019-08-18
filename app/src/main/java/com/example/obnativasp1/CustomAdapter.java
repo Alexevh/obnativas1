@@ -18,11 +18,13 @@ public class CustomAdapter implements ListAdapter {
     ArrayList<String> arrayList;
     Context context;
     ArrayList<String> imagenes;
+    ArrayList<String> direcciones;
 
-    public CustomAdapter(Context context, ArrayList<String> arrayList, ArrayList<String> imagenes) {
+    public CustomAdapter(Context context, ArrayList<String> arrayList, ArrayList<String> imagenes, ArrayList<String> direcciones) {
         this.arrayList=arrayList;
         this.context=context;
         this.imagenes = imagenes;
+        this.direcciones = direcciones;
     }
     @Override
     public boolean areAllItemsEnabled() {
@@ -61,6 +63,7 @@ public class CustomAdapter implements ListAdapter {
         * en cada item lo que quiero*/
         String subjectData = arrayList.get(position);
         String imagen = imagenes.get(position);
+        String dirmapa = direcciones.get(position);
 
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -70,12 +73,20 @@ public class CustomAdapter implements ListAdapter {
                 public void onClick(View v) {
                 }
             });
+
             /* Cargo el tiulo de las pelis*/
             TextView tittle = convertView.findViewById(R.id.titulo);
+
+
             /* AHOra la imagen*/
             ImageView imag = convertView.findViewById(R.id.imagen);
             tittle.setText(subjectData);
             Picasso.with(context).load("http://apiort.montevideo-gh.com/img/"+imagen).into(imag);
+
+            /* cargo la direccion para el mapa*/
+            TextView mapa = convertView.findViewById(R.id.direccionMapa);
+            mapa.setText(dirmapa);
+
         }
         return convertView;
     }

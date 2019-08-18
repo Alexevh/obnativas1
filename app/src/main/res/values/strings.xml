@@ -3,4 +3,5 @@
     <string name="acercade"> Trabajo entregado para el obligatorio de Desarrollo de aplicaciones
         nativas, Universidad ORT PDP - 2019 - Marcelo Alexandre - 153012
     </string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.obnativasp1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -192,6 +193,12 @@ public class listaCategorias extends Activity implements asyncResponse, SearchVi
         TextView actionBarTitle = (TextView) (this.findViewById(titleId));
         actionBarTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
         actionBarTitle.setTypeface(typeface);
+    }
+
+    public  void buscarMapa(View view)
+    {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
 
