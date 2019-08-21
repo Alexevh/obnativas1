@@ -1,0 +1,53 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.obnativasp1.listaPeliculas">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textBoxBuscar"/>
+
+
+    <ListView
+        android:id="@+id/listaPeliculas"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        >
+    </ListView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imagen"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/titulo">
+
+    </TextView>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="Mapa"
+        android:id="@+id/buscarMapa"
+        android:onClick="buscarMapa" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/direccionMapa"
+        >
+
+    </TextView>
+
+
+</LinearLayout>

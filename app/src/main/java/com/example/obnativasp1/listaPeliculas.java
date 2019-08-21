@@ -41,6 +41,7 @@ public class listaPeliculas  extends Activity implements asyncResponse {
     ArrayAdapter<String> adapter = null;
     Context context;
     String direccion = "";
+    int posicion =0;
 
     /* El adaptador custom se hace para que la lista refresque las cosas cuando itera un item*/
     CustomAdapter apaptador = new CustomAdapter(this, (ArrayList<String>) listaPeliculas, (ArrayList<String>) listaImagenes, (ArrayList<String>) listaDirecciones);
@@ -51,7 +52,7 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ativity_list_view_categorias);
+        setContentView(R.layout.lista_peliculas_layout);
         textBox = (EditText) findViewById(R.id.textBoxBuscar);
         text = (TextView) findViewById(R.id.text);
 
@@ -149,6 +150,9 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
                     // ListView Clicked item index
                     int itemPosition = position;
+                    posicion = position;
+
+                    System.out.println("la posicion es"+position);
 
                     // ListView Clicked item value
                     String itemValue = (String) listView.getItemAtPosition(position);
@@ -183,19 +187,31 @@ public class listaPeliculas  extends Activity implements asyncResponse {
 
     /* en el XML que recoge todas las vistas estaba categoriasy ahra esta peliculas*/
     public  void buscarMapa(View view) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
+        TextView mapa = null;
+        mapa = findViewById(R.id.titulo);
+        String nombrepelicula = (String) mapa.getText();
 
-    getMapa(view, direccion);
+        System.out.println("el titulo  que me llega es "+ nombrepelicula);
+
+        String dir = "";
+
+
+        dir = listaDirecciones.get(posicion);
+
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra("valorMapa", direccion);
+        startActivity(i);
+
+
+        System.out.println("La direccion que me llega es "+dir);
+    getMapa(view, dir);
 
     }
 
     public void getMapa(View view, String direccion)
     {
-        TextView mapa = findViewById(R.id.direccionMapa);
-
-        String dir = (String) mapa.getText();
-        System.out.println("La direccion que me llega es "+dir);
         Intent i = new Intent(this, MapsActivity.class);
-        i.putExtra("valorMapa", dir);
+        i.putExtra("valorMapa", direccion);
         startActivity(i);
     }
 

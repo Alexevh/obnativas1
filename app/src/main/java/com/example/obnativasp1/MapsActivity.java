@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             direccion= (String) savedInstanceState.getSerializable("valorMapa");
         }
+
+
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -128,7 +131,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onSearch(View view) {
        //EditText location_tf = (EditText) findViewById(R.id.TFaddress);
        //String location = location_tf.getText().toString();
-        String location ="18 de julio esquina beisso, montevideo, uruguay";
+
+        TextView mapa = findViewById(R.id.direccionMapa);
+
+        String location = (String) mapa.getText();
+        //String location ="18 de julio esquina beisso, montevideo, uruguay";
         List<Address> addressList = null;
         if (location != null || !location.equals("")) {
             Geocoder geocoder = new Geocoder(this);
